@@ -14,10 +14,14 @@
     <h1> Мої Нотатки</h1>
     
     {% for note in notes %}
-        <div class="note">
-            <h2>{{ note.title }}</h2>
-            <p>{{ note.content }}</p>
-        </div>
+    <div class="note">
+      <h2>{{ note.title }}</h2>
+      <p>{{ note.text }}</p>
+      <p><strong>Категорія:</strong> {{ note.category.title }}</p>
+      {% if note.reminder %}
+          <p><strong>Нагадування:</strong> {{ note.reminder }}</p>
+      {% endif %}
+  </div>
     {% empty %}
         <p>Нотаток поки що немає.</p>
     {% endfor %}

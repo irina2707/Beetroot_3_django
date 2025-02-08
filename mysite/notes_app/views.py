@@ -1,11 +1,6 @@
 from django.shortcuts import render
+from .models import Note
 
 def index(request):
-    # Тестові дані
-    notes = [
-        {"title": "Перша нотатка", "content": "Це перша тестова нотатка"},
-        {"title": "Друга нотатка", "content": "Це друга тестова нотатка"},
-        {"title": "Третя нотатка", "content": "Це третя тестова нотатка"},
-    ]
-    
+    notes = Note.objects.all()  # Отримуємо всі нотатки з бази
     return render(request, "notes_app/index.html", {"notes": notes})
