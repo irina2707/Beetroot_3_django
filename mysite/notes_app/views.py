@@ -2,6 +2,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Note
 from .forms import NoteForm
+from rest_framework import generics
+from .serializers import NoteSerializer
 
 # Головна сторінка з нотатками
 def index(request):
@@ -48,3 +50,14 @@ def delete(request, note_id):
         return redirect("notes_app:index")
     
     return render(request, "notes_app/delete.html", {"note": note})
+
+
+# API для перегляду всіх нотаток та створення нової
+class NoteListCreateView(generics.ListCreateAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+
+# API для перегляду, редагування та видалення конкретної нотатки
+class NoteRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
