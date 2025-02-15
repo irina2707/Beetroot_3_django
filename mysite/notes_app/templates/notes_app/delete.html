@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Видалити нотатку</title>
+</head>
+<body>
+    <h1>Видалити "{{ note.title }}"?</h1>
+    <p>Ви впевнені?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Так, видалити 🗑</button>
+    </form>
+    <br>
+    <a href="{% url 'notes_app:index' %}">⬅ Скасувати</a>
+</body>
+</html>
+
