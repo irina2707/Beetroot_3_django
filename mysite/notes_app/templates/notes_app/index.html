@@ -1,38 +1,33 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes App</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; padding: 0; }
-        h1 { color: #333; }
-        .note { background: #f8f8f8; padding: 15px; margin: 10px 0; border-left: 4px solid #007bff; }
-    </style>
-</head>
-<body>
-    <h1> Мої Нотатки</h1>
+{% extends 'notes_app/layout.html' %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4">Мої Нотатки</h1>
 
-    <!-- 🔍 Форма пошуку -->
-    <form method="GET" action="{% url 'notes_app:index' %}">
-        <input type="text" name="q" placeholder=" Введіть заголовок нотатки..." value="{{ query|default:'' }}">
-        <button type="submit">🔍 Пошук</button>
-    </form>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="{% url 'notes_app:create' %}" class="btn btn-primary">
+            ➕ Додати нову нотатку
+        </a>
+        <div class="input-group w-50">
+            <input type="text" class="form-control" placeholder="Введіть заголовок нотатки">
+            <button class="btn btn-outline-secondary">🔍 Пошук</button>
+        </div>
+    </div>
 
-    <a href="{% url 'notes_app:create' %}">➕ Додати нову нотатку</a>
-
-    <ul>
+    <ul class="list-group">
         {% for note in notes %}
-            <li>
-                <a href="{% url 'notes_app:detail' note.id %}">
-                    {{ note.title }} (Категорія: {{ note.category.title }})
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <a href="{% url 'notes_app:detail' note.id %}" class="fw-bold text-decoration-none">
+                    {{ note.title }}
                 </a>
-            </li>
-        {% empty %}
-            <li>🔍 Нічого не знайдено</li>
+                <small class="text-muted">(Категорія: {{ note.category }})</small>
+            </div>
+            <a href="{% url 'notes_app:delete' note.id %}" class="btn btn-danger btn-sm">Видалити</a>
+        </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+</div>
+{% endblock %}
+
 
 

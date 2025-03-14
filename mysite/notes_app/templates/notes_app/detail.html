@@ -1,24 +1,46 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ note.title }}</title>
-</head>
-<body>
-    <h1>Редагувати нотатку</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">💾 Зберегти</button>
-    </form>
+{% extends 'notes_app/layout.html' %}
 
-    <form action="{% url 'notes_app:delete' note.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" style="color: red;">🗑 Видалити</button>
-    </form>
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4">✏ Редагувати нотатку</h1>
 
-    <br>
-    <a href="{% url 'notes_app:index' %}">⬅ Назад до списку</a>
-</body>
-</html>
+    <!-- Карточка для форми -->
+    <div class="card shadow-lg p-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Заголовок</label>
+                <input type="text" name="title" class="form-control" value="{{ form.title.value }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Текст</label>
+                <textarea name="text" class="form-control" rows="5" required>{{ form.text.value }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Категорія</label>
+                <select name="category" class="form-select">
+                    <option value="Навчання" {% if form.category.value == "Навчання" %}selected{% endif %}>Навчання</option>
+                    <option value="Робота" {% if form.category.value == "Робота" %}selected{% endif %}>Робота</option>
+                    <option value="Особисте" {% if form.category.value == "Особисте" %}selected{% endif %}>Особисте</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success w-100">💾 Зберегти</button>
+        </form>
+    </div>
+
+    <!-- Кнопка для видалення -->
+    <div class="text-center mt-3">
+        <form action="{% url 'notes_app:delete' note.id %}" method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити нотатку?');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">🗑 Видалити</button>
+        </form>
+    </div>
+
+    <!-- Кнопка Назад -->
+    <div class="text-center mt-3">
+        <a href="{% url 'notes_app:index' %}" class="btn btn-outline-secondary">⬅ Назад до списку</a>
+    </div>
+</div>
+{% endblock %}
+
 

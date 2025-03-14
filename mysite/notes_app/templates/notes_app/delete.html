@@ -1,18 +1,22 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>Видалити нотатку</title>
-</head>
-<body>
-    <h1>Видалити "{{ note.title }}"?</h1>
-    <p>Ви впевнені?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Так, видалити 🗑</button>
-    </form>
-    <br>
-    <a href="{% url 'notes_app:index' %}">⬅ Скасувати</a>
-</body>
-</html>
+{% extends 'notes_app/layout.html' %}
+
+{% block content %}
+<div class="container text-center">
+    <h1 class="my-4 text-danger">⚠ Видалити нотатку</h1>
+    
+    <div class="card shadow-lg p-4">
+        <h3 class="text-dark">Ви впевнені, що хочете видалити:</h3>
+        <h4 class="fw-bold text-primary">"{{ note.title }}"?</h4>
+        <p class="text-muted">Цю дію не можна скасувати!</p>
+        
+        <!-- Форма для видалення -->
+        <form method="post" class="mt-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">🗑 Так, видалити</button>
+            <a href="{% url 'notes_app:index' %}" class="btn btn-secondary">⬅ Скасувати</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
 
